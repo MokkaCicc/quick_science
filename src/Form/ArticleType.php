@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Author;
+use App\Entity\Category;
 use App\Entity\Magazine;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -23,7 +24,7 @@ class ArticleType extends AbstractType
                 'choice_label'=>function($magazine) {
                     return sprintf("n°%d: %s", $magazine->getNumber(), $magazine->getTitle());
                 },
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => false
             ])
             ->add('author', EntityType::class, [
@@ -31,8 +32,14 @@ class ArticleType extends AbstractType
                 'choice_label'=>function($author) {
                     return sprintf("%s %s", $author->getFirstName(), $author->getLastName());
                 },
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => false
+            ])
+            ->add('categories', EntityType::class, [
+                'class'=>Category::class,
+                'choice_label'=>'name',
+                'expanded' => false,
+                'multiple' =>true
             ])
         ;
     }
