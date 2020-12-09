@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Magazine index{% endblock %}
+
+{% block body %}
+    <h1>Magazine index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Number</th>
+                <th>Release_date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for magazine in magazines %}
+            <tr>
+                <td>{{ magazine.id }}</td>
+                <td>{{ magazine.title }}</td>
+                <td>{{ magazine.number }}</td>
+                <td>{{ magazine.releaseDate ? magazine.releaseDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('magazine_show', {'id': magazine.id}) }}">show</a>
+                    <a href="{{ path('magazine_edit', {'id': magazine.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('magazine_new') }}">Create new</a>
+{% endblock %}

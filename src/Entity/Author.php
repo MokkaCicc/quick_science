@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\MagazineRepository;
+use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MagazineRepository::class)
+ * @ORM\Entity(repositoryClass=AuthorRepository::class)
  */
-class Magazine
+class Author
 {
     /**
      * @ORM\Id
@@ -22,20 +22,15 @@ class Magazine
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $firstName;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
-    private $number;
+    private $lastName;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $release_date;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="magazine", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author")
      */
     private $articles;
 
@@ -49,38 +44,26 @@ class Magazine
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->title;
+        return $this->firstName;
     }
 
-    public function setTitle(string $title): self
+    public function setFirstName(string $firstName): self
     {
-        $this->title = $title;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getNumber(): ?int
+    public function getLastName(): ?string
     {
-        return $this->number;
+        return $this->lastName;
     }
 
-    public function setNumber(int $number): self
+    public function setLastName(string $lastName): self
     {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    public function getReleaseDate(): ?\DateTimeInterface
-    {
-        return $this->release_date;
-    }
-
-    public function setReleaseDate(\DateTimeInterface $release_date): self
-    {
-        $this->release_date = $release_date;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -97,7 +80,7 @@ class Magazine
     {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
-            $article->setMagazine($this);
+            $article->setAuthor($this);
         }
 
         return $this;
@@ -107,8 +90,8 @@ class Magazine
     {
         if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($article->getMagazine() === $this) {
-                $article->setMagazine(null);
+            if ($article->getAuthor() === $this) {
+                $article->setAuthor(null);
             }
         }
 
