@@ -122,7 +122,7 @@ class Article
     }
 
     /**
-     * @return Collection|category[]
+     * @return Collection|Category[]
      */
     public function getCategories(): Collection
     {

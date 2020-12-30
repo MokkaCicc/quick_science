@@ -35,7 +35,7 @@ class Category
     private $subCategories;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Article::class, mappedBy="Categories")
+     * @ORM\ManyToMany(targetEntity=Article::class, mappedBy="categories")
      */
     private $articles;
 
