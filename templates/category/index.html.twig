@@ -2,11 +2,32 @@
 
 {% block title %}Category index{% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/category/index.css') }}">
+{% endblock %}
+
 {% block body %}
     <h1>Category index</h1>
     <a href="{{ path('home') }}">Retour</a>
 
-    <table class="table">
+    {# Macro for recursive tree categories #}
+    {% macro createCategoriesTree(categories, rootCategory = null) %}
+        <ul>
+            {% for category in categories %}
+                {% if category.rootCategory == rootCategory %}
+                    <li>
+                        <span>{{ category.name }}</span>
+                        <button class='addButton'><img src="{{ asset('icons/plus.svg') }}" alt="Add"></button>
+                        {{ _self.createCategoriesTree(category.subCategories, category) }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endmacro %}
+
+    {{ _self.createCategoriesTree(categories) }}
+
+    {# <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -32,5 +53,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('category_new') }}">Create new</a>
+    <a href="{{ path('category_new') }}">Create new</a> #}
 {% endblock %}

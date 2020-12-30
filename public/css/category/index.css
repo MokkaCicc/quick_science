@@ -1,0 +1,16 @@
+.addButton {
+    padding: 0;
+    border: 0;
+    background: none;
+    width: 20px;
+    height: 20px;
+}
+
+.addButton>img {
+    width: 20px;
+    height: 20px;
+}
+
+.addButton>img:hover {
+    border: 2px solid blue;
+}

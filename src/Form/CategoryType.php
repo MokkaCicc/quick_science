@@ -15,7 +15,12 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('rootCategory')
+            ->add('rootCategory', EntityType::class, [
+                'class'=>Category::class,
+                'choice_label'=>'name',
+                'expanded' => false,
+                'multiple' => false
+            ])
             ->add('articles', EntityType::class, [
                 'class'=>Article::class,
                 'choice_label'=>'title',
