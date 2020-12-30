@@ -35,6 +35,13 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
                 ->setAuthor($author)
             ;
 
+            $numberCategories = rand(1, 3);
+            for ($j=0; $j < $numberCategories; $j++) {
+                $categoryTag = "category-" . rand(0, CategoryFixtures::$numberCategories-1);
+                $category = $this->getReference($categoryTag);
+                $article->addCategory($category);
+            }
+
             $tag = "article-" . $i;
             $this->addReference($tag, $article);
             $manager->persist($article);
@@ -48,6 +55,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
         return array(
             MagazineFixtures::class,
             AuthorFixtures::class,
+            CategoryFixtures::class
         );
     }
 }
