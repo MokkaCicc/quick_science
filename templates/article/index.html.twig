@@ -1,40 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article index{% endblock %}
+{% block title %}Articles{% endblock %}
 
 {% block body %}
-    <h1>Article index</h1>
-    <a href="{{ path('home') }}">Retour</a>
+    <h1>Articles</h1>
+    <a class="btn btn-primary" href="{{ path('article_new') }}">Ajouter un article</a>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Page</th>
-                <th>actions</th>
+                <th>Titre</th>
+                <th>Catégories</th>
+                <th>Magazine</th>
+                <th>Auteur</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for article in articles %}
             <tr>
-                <td>{{ article.id }}</td>
                 <td>{{ article.title }}</td>
-                <td>{{ article.description }}</td>
-                <td>{{ article.page }}</td>
                 <td>
-                    <a href="{{ path('article_show', {'id': article.id}) }}">show</a>
-                    <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
+                    {% for category in article.categories %}
+                        {% if category != article.categories|last %}
+                            <a href="{{ path('category_show', {'id': category.id}) }}">{{ category.name }},</a>
+                        {% else %}
+                            <a href="{{ path('category_show', {'id': category.id}) }}">{{ category.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('magazine_show', {'id': article.magazine.id}) }}">
+                        N°{{ article.magazine.number }}, page {{ article.page }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('author_show', {'id': article.author.id}) }}">
+                        {{ article.author.firstname }} {{ article.author.lastname }}
+                    </a>
+                </td>
+                <td class="btn-group" role="group">
+                    <a href="{{ path('article_show', {'id': article.id}) }}"><img class="btn btn-success px-0" width="40" height="40" src="{{ asset('icons/magnifying-glass.svg') }}" alt="Voir"></a>
+                    <a href="{{ path('article_edit', {'id': article.id}) }}"><img class="btn btn-warning px-0" width="40" height="40" src="{{ asset('icons/edit.svg') }}" alt="Modifier"></a>
+                    {% include "article/_delete_form.html.twig" %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Pas d'articles trouvées :(</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('article_new') }}">Create new</a>
 {% endblock %}

@@ -1,34 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article{% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
 
 {% block body %}
-    <h1>Article</h1>
+    <h1>{{ article.title }}</h1>
+    <div class="btn-group" role="group">
+        <a href="{{ path('article_index') }}"><img class="btn btn-success px-0" width="40" height="40" src="{{ asset('icons/left-arrow.svg') }}" alt="Retour"></a>
+        <a href="{{ path('article_edit', {'id': article.id}) }}"><img class="btn btn-warning px-0" width="40" height="40" src="{{ asset('icons/edit.svg') }}" alt="Modifier"></a>
+        {% include "article/_delete_form.html.twig" %}
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ article.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ article.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ article.description }}</td>
-            </tr>
-            <tr>
-                <th>Page</th>
-                <td>{{ article.page }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <p>{{ article.description }}</p>
 
-    <a href="{{ path('article_index') }}">back to list</a>
+    {% for category in article.categories %}
+        {% if category != article.categories|last %}
+            <a href="{{ path('category_show', {'id': category.id}) }}">{{ category.name }},</a>
+        {% else %}
+            <a href="{{ path('category_show', {'id': category.id}) }}">{{ category.name }}</a>
+        {% endif %}
+    {% endfor %}
 
-    <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
+    <a href="{{ path('magazine_show', {'id': article.magazine.id}) }}">
+        N°{{ article.magazine.number }}, page {{ article.page }}
+    </a>
 
-    {{ include('article/_delete_form.html.twig') }}
+    <a href="{{ path('author_show', {'id': article.author.id}) }}">
+        {{ article.author.firstname }} {{ article.author.lastname }}
+    </a>
 {% endblock %}

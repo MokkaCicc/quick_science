@@ -8,7 +8,6 @@
 
 {% block body %}
     <h1>Category index</h1>
-    <a href="{{ path('home') }}">Retour</a>
 
     {# Macro for recursive tree categories #}
     {% macro createCategoriesTree(categories, rootCategory = null) %}
