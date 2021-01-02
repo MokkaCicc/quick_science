@@ -25,7 +25,9 @@
         </ul>
     {% endmacro %}
 
-    {{ _self.createCategoriesTree(categories) }}
+    <div id="categoriesTree">
+        {{ _self.createCategoriesTree(categories) }}
+    </div>
 
     {# <table class="table">
         <thead>
